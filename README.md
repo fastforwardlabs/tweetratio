@@ -1,11 +1,11 @@
-# Twitter reply-to-retweet scraping code
+# Twitter reply-to-retweet ratio scraping code
 
 ## Installation
 
 Requirements: Python 3.6+
 
 ```bash
-$ git clone <URL>
+$ git clone git@github.com:fastforwardlabs/tweetratio.git
 $ cd tweetratio
 $ python3 -m virtualenv venv
 $ source venv/bin/activate
@@ -51,4 +51,5 @@ For example:
 ```
 
 A minified copy of the tweets, which contains only the keys necessary for [the
-visualization](<URL>), is saved to `processed/realDonaldTrump.json`.
+visualization](http://www.fastforwardlabs.com/tweetratio/), is saved to
+`processed/realDonaldTrump.json`.
