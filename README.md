@@ -27,6 +27,10 @@ minutes, depending on the speed of your internet connection.
 
 The tweets can then be found in `raw/realDonaldTrump.json`.
 
+A minified copy of the tweets, which contains only the keys necessary for [the
+visualization](http://www.fastforwardlabs.com/tweetratio/), is saved to
+`processed/realDonaldTrump.json`.
+
 ## Analysis
 
 `analysis.py` contains simple code to load the tweets as a pandas DataFrame.
@@ -35,21 +39,5 @@ For example:
 ```python
 >>> import analysis
 >>> tweets = analysis.load_df()
->>> tweets['replies_per_retweet'] = tweets['reply_count']/tweets['retweet_count']
->>> sample = 'W'                                         # sample weekly
->>> start = "2016"                                       # don't plot old tweets
->>> users=('realDonaldTrump', 'dril', 'HillaryClinton')  # only plot these users
->>> fig, ax = plt.subplots()
->>> df = df[df['user'].isin(users)].loc[start:]
->>> df = df[np.isfinite(df['replies_per_retweet'])]
->>> ax = (df
-...       .groupby([pd.TimeGrouper(sample), 'user'])['replies_per_retweet']
-...       .mean()
-...       .unstack()
-...       .plot())
->>> fig.savefig("fig.png", bbox_inches='tight')
+>>> analysis.plot_trend(tweets)
 ```
-
-A minified copy of the tweets, which contains only the keys necessary for [the
-visualization](http://www.fastforwardlabs.com/tweetratio/), is saved to
-`processed/realDonaldTrump.json`.
