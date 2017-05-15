@@ -1,0 +1,175 @@
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.js" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+    body {
+        margin: 0px;
+        padding: 0px;
+        font-family: open-sans, sans-serif;
+        font-size: 12px;
+
+    }
+    .line, .avg-path {
+      fill: none;
+      stroke-width: 2px;
+    }
+    
+    .tweet {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .tweets-hover {
+      opacity: 1 !important;
+    }
+
+    .callout {
+      position: absolute;
+      width: 280px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.85);
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s ease-in;
+      border: 1px solid rgba(220, 220, 220, 0.3);
+      border-radius: 6px;
+      text-shadow: 0px 0px 5px rgba(255, 255, 255, 1);
+    }
+    .callout img {
+      padding: 2px;
+      border: 1px solid #FFF;
+      border-radius: 50%;
+    }
+
+    .callout .text {
+      float: right;
+      width: 220px;
+      font-size: 13px;
+      font-family: "Helvetica Neue", "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    }
+    .callout .time {
+        color: #999;
+        /* width: 600px; */
+        font-size: 12px;
+        margin: 7px 0;
+        display: inline-block;
+    }
+    .callout .stats {
+    }
+    .callout .stats span {
+      width: 18%;
+      margin-right: 10px;
+      font-size: 18px;
+      display: inline-block;
+      color: #AAB8C2;
+      padding-left: 27px;
+      position: relative;
+    }
+    .callout .retweet {
+      padding-left: 30px;
+    }
+    
+    .callout .stats span::before {
+      content: ' ';
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      position: absolute;
+      left: -3px;
+      top: -2px;
+      background-repeat: no-repeat; 
+    }
+    .callout .retweet::before {
+      background-image: url(retweet.svg);
+    }
+ 
+    .callout .reply::before {
+      background-image: url(reply.svg);
+    }
+    .callout .stats span.trash::before {
+      content: '\00F7';
+      left: 10px;
+    }
+
+    .callout .stats .trash {
+      color: #e74c3c;
+      margin-left: -3px;
+      /*flaot: right;
+      text-align: right;*/
+    }
+
+    .voronoi path {
+      fill: #E5E5E5;
+      stroke: #EEE;
+      opacity: 0;
+      cursor: pointer;
+
+    }
+    #controls {
+      margin: 10px;
+    
+    }
+    #legend {
+      position: absolute;
+      font-size: 14px; 
+      margin-left: 70px;
+    }
+    .legend {
+      margin: 3px 5px;
+      width: 150px;
+      cursor: pointer;
+      display: inline-block;
+    } 
+    .legend span {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      margin: -2px 5px;
+      border: 2px solid;
+      float: left;
+      font-size: 20px;
+      line-height: 17px;
+    }
+    .credit {
+      position: fixed;
+      bottom: 2;
+      left: 2;
+      font-size: 10px;
+    }
+    #vis {
+      margin-left: 10px;
+    }
+    </style>
+
+</head>
+
+<body>
+  <div id="controls">
+    <!--
+    <label>Show all user trends</label><input class="showallusers" type="checkbox"></input>
+    or,
+    <label>Select user: </label><select></select>
+    
+    <label>Show individual tweets</label><input class="showtweets" type="checkbox" checked></input>
+    -->
+  </div>
+
+  <div class="callout">
+    <img src=""><span class="userhandle"></span>
+    <span class="text"></span>
+    <span class="time"></span>
+    <div class="stats">
+      <span class="reply"></span>
+      <span class="retweet"></span>
+      <span class="trash"></span>
+    </div>
+  </div>
+
+  <div id="legend"></div>
+  <div id="vis"></div>
+</body>
+
+<script src="app.js"></script>
+</html>
