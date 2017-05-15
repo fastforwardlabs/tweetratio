@@ -1,5 +1,9 @@
 # Twitter reply-to-retweet ratio scraping code
 
+This is the scraping and front-end code used to acquire and visualize the data
+discussed in [A Quick Look at the Reply-to-Retweet
+Ratio](http://blog.fastforwardlabs.com/2017/05/15/reply-retweet-ratio.html).
+
 ## Installation
 
 Requirements: Python 3.6+
@@ -31,6 +35,23 @@ A minified copy of the tweets, which contains only the keys necessary for [the
 visualization](http://www.fastforwardlabs.com/tweetratio/), is saved to
 `processed/realDonaldTrump.json`.
 
+## Frontend
+
+To run [the
+visualization](http://blog.fastforwardlabs.com/2017/05/15/reply-retweet-ratio.html)
+locally, download data for `realDonaldTrump`, `BernieSanders`, `BarackObama`,
+`HillaryClinton`, `GovMikeHuckabee`, `dril` and `SpeakerRyan`. If you'd like to
+plot other accounts, download those and change
+[`web/app.js`](https://github.com/fastforwardlabs/tweetratio/blob/master/web/app.js#L9-L18).
+
+Then
+```bash
+$ mv processed/* web/data/
+$ cd web
+$ python3 -m http.server
+```
+and visit `localhost:8000`
+
 ## Analysis
 
 `analysis.py` contains simple code to load the tweets as a pandas DataFrame.
@@ -41,3 +62,4 @@ For example:
 >>> tweets = analysis.load_df()
 >>> analysis.plot_trend(tweets)
 ```
+![](fig.png)
