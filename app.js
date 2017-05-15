@@ -17,7 +17,7 @@ var users = ["realDonaldTrump",
             //"neiltyson"
     ]
 
-var colors = ["rgb(233,77,60)", "rgb(70,162,108)", "rgb(78,166,220)", "rgb(92,47,142)", "rgb(157,132,206)", "rgb(165,15,169)", "rgb(41,77,70)", "rgb(209,121,248)"]
+var colors = ["rgb(233,77,60)", "rgb(70,162,108)", "rgb(78,166,220)", "rgb(92,47,142)", "rgb(230, 126, 34)", "rgb(165,15,169)", "rgb(41,77,70)", "rgb(209,121,248)"]
 
 var appState = {
    selectedUsers: [0],
