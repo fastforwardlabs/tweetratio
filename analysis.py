@@ -51,4 +51,5 @@ def plot_trend(df, sample='W', start="2016",
           .mean()
           .unstack()
           .plot(ax=ax))
+    ax.set_ylabel('Replies per retweet')
     fig.savefig("fig.png", bbox_inches='tight')
