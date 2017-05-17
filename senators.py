@@ -1,5 +1,4 @@
 import analysis
-import tqdm
 import tweetratio
 
 senators = ["SenShelby", "lutherstrange", "lisamurkowski", "SenDanSullivan",
@@ -39,7 +38,8 @@ def write_csv(df, fname, keep=None):
 
 
 if __name__ == '__main__':
-    for senator in tqdm.tqdm(senators[:2]):
+    for i, senator in enumerate(senators):
+        print(f'{i}/{len(senators)}: {senator}')
         tweetratio.get_and_save_user(senator)
         tweets = analysis.load_json(f'raw/{senator}')
         df = analysis.tweets_to_df(tweets)
