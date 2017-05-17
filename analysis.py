@@ -16,9 +16,8 @@ def load_json(user):
 def tweets_to_df(tweets):
     '''Convert tweet json to DataFrame with datetime index and reply_ratio.'''
     df = pd.DataFrame.from_dict(tweets, orient='index')
-    df['Date'] = pd.to_datetime(df['created_at'])
-    df['replies_per_retweet'] = df['reply_count']/df['retweet_count']
-    return df.set_index('Date').query('retweet_count > 50')
+    df['created_at'] = pd.to_datetime(df['created_at'])
+    return df
 
 
 def load_df():
@@ -41,11 +40,13 @@ def save_worst_tweets(df):
      .to_csv('worst_tweets.csv'))
 
 
-def plot_trend(df, sample='W', start="2016",
+def plot_trend(df, sample='W', start="2016", min_retweets=50,
                users=('realDonaldTrump', 'dril', 'BernieSanders')):
     fig, ax = plt.subplots()
-    df = df[df['user'].isin(users)].loc[start:]
-    df = df[np.isfinite(df['replies_per_retweet'])]
+    df = (df[df['user'].isin(users)]
+          .loc[start:]
+          .query(f'retweet_count > {min_retweets}'))
+    df['replies_per_retweet'] = df['reply_count']/df['retweet_count']
     ax = (df
           .groupby([pd.TimeGrouper(sample), 'user'])['replies_per_retweet']
           .mean()
