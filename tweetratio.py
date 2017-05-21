@@ -1,3 +1,4 @@
+import backoff
 import bs4
 import json
 import logging
@@ -17,6 +18,8 @@ auth.set_access_token(
     os.environ['access_token_secret']
 )
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+logging.basicConfig(filename='log.log', level=logging.INFO,
+                    format='%(levelname)s:%(asctime)s:%(message)s')
 
 
 def get_tweets(user, ntweets=3200):
@@ -29,18 +32,24 @@ def get_tweets(user, ntweets=3200):
     return tweets
 
 
+@backoff.on_exception(backoff.expo,
+                      (requests.exceptions.Timeout,
+                       requests.exceptions.ConnectionError,
+                       AttributeError),
+                      max_tries=8)
 def scrape_reply_count_tweet(tweet):
     '''Scrape reply count from tweet page.'''
-    url = f"http://twitter.com/{tweet['user']}/status/{tweet['id_str']}"
+    url = (f"http://twitter.com/{tweet['user']['screen_name']}"
+           f"/status/{tweet['id_str']}")
     try:
         page = bs4.BeautifulSoup(requests.get(url).text, 'lxml')
         span = (page
                 .find("div", {"class": 'permalink-tweet'})
                 .find("span", {"class": "ProfileTweet-actionCount"}))
         count = int(span.get('data-tweet-stat-count'))
-    except AttributeError:
+    except:
         logging.error(f'Failed to scrape {url}')
-        count = None
+        raise
     return count
 
 
@@ -67,8 +76,13 @@ def scrape_reply_counts_timeline(user):
     with tqdm.tqdm(total=1000) as pbar:  # 1000 ~= maximum timeline length
         while True:
             try:
-                html = json.loads(requests.get(url).text)['items_html']
+                json_payload = json.loads(requests.get(url).text)
+                if not json_payload["has_more_items"]:
+                    return counts
+                else:
+                    html = json_payload['items_html']
             except json.decoder.JSONDecodeError:
+                logging.exception(f'Failed at {url}')
                 return counts
             timeline = bs4.BeautifulSoup(html, 'lxml')
             newcounts = scrape_reply_counts_timeline_slice(timeline)
@@ -86,7 +100,7 @@ def count_reply_counts(tweets):
 
 def add_reply_counts(tweets):
     '''Add 'reply_count' to each tweet in tweets.'''
-    user = list(tweets.values())[0]['user']
+    user = list(tweets.values())[0]['user']['screen_name']
     print('--- Scraping timeline')
     reply_counts = scrape_reply_counts_timeline(user)
     for tweet_id, reply_count in reply_counts:
