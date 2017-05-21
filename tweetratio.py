@@ -17,8 +17,6 @@ auth.set_access_token(
     os.environ['access_token_secret']
 )
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-logging.basicConfig(filename='log.log', level=logging.INFO,
-                    format='%(levelname)s:%(asctime)s:%(message)s')
 
 
 def get_tweets(user, ntweets=3200):
@@ -108,18 +106,6 @@ def add_reply_counts(tweets):
                 return tweets
     logging.info(f'Acquired {count_reply_counts(tweets)} reply counts')
     return tweets
-
-
-def filter_tweets(tweets, min_retweet_count=50, min_year='2016'):
-    '''Filter tweets for frontend.'''
-    filter_keys = {'user', 'text', 'created_at', 'retweet_count',
-                   'reply_count', 'id_str'}
-    filtered_tweets = [{k: v for k, v in tweet.items() if k in filter_keys}
-                       for tweet_id, tweet in tweets.items()
-                       if (tweet['retweet_count'] > min_retweet_count)
-                       and (tweet['created_at'].split()[-1] >= min_year)]
-    logging.info(f'Filtered {len(tweets)} to {len(filtered_tweets)} tweets')
-    return filtered_tweets
 
 
 def load_json(jsonf):
