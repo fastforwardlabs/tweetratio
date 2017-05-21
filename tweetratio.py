@@ -94,8 +94,7 @@ def scrape_reply_counts_timeline(user):
 
 def count_reply_counts(tweets):
     '''Returns number of tweets that have reply_count set.'''
-    return sum(('reply_count' in tweet) and (tweet['reply_count'] is not None)
-               for tweet in tweets.values())
+    return sum('reply_count' in tweet for tweet in tweets.values())
 
 
 def add_reply_counts(tweets):

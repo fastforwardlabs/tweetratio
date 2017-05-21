@@ -3,9 +3,6 @@ import logging
 
 from tweepy.error import TweepError
 
-logging.basicConfig(filename='log.log', level=logging.INFO,
-                    format='%(levelname)s:%(asctime)s:%(message)s')
-
 senators = [
     "SenShelby", "lutherstrange", "lisamurkowski", "SenDanSullivan",
     "SenJohnMcCain", "JeffFlake", "JohnBoozman", "SenTomCotton",
@@ -33,6 +30,19 @@ senators = [
     "Sen_JoeManchin", "SenatorBaldwin", "SenRonJohnson", "SenJohnBarrasso",
     "SenatorEnzi"
 ]
+
+
+def missing():
+    unscraped = 0
+    for i, senator in enumerate(senators, 1):
+        try:
+            tweets = tweetratio.load_json(f'raw/{senator}.json')
+            missing = len(tweets) - tweetratio.count_reply_counts(tweets)
+            if missing:
+                print(f'{senator}: {missing} reply_counts')
+        except:
+            unscraped += 1
+    print(f'{unscraped} unscraped')
 
 
 if __name__ == '__main__':
