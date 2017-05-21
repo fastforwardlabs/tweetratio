@@ -1,5 +1,10 @@
-import analysis
 import tweetratio
+import logging
+
+from tweepy.error import TweepError
+
+logging.basicConfig(filename='log.log', level=logging.INFO,
+                    format='%(levelname)s:%(asctime)s:%(message)s')
 
 senators = ["SenShelby", "lutherstrange", "lisamurkowski", "SenDanSullivan",
             "SenJohnMcCain", "JeffFlake", "JohnBoozman", "SenTomCotton",
@@ -30,17 +35,11 @@ senators = ["SenShelby", "lutherstrange", "lisamurkowski", "SenDanSullivan",
             "SenJohnBarrasso", "SenatorEnzi"]
 
 
-def write_csv(df, fname, keep=None):
-    if keep is None:
-        keep = ['created_at', 'text', 'user', 'retweet_count',
-                'favorite_count', 'reply_count']
-    df[keep].to_csv(fname)
-
-
 if __name__ == '__main__':
-    for i, senator in enumerate(senators):
+    for i, senator in enumerate(senators, 1):
         print(f'{i}/{len(senators)}: {senator}')
-        tweetratio.get_and_save_user(senator)
-        tweets = analysis.load_json(f'raw/{senator}')
-        df = analysis.tweets_to_df(tweets)
-        write_csv(df, f'csv/{senator}.csv')
+        try:
+            tweets = tweetratio.get_user(senator, rescrape=False, save=True)
+        except TweepError as e:
+            logging.exception(senator)
+            pass

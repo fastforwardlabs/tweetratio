@@ -1,16 +1,9 @@
 import glob
-import json
-import os
+import logging
+import tweetratio
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-
-
-def load_json(user):
-    '''Load {user}.json.'''
-    with open(user + '.json') as f:
-        return json.load(f)
 
 
 def tweets_to_df(tweets):
@@ -23,9 +16,8 @@ def tweets_to_df(tweets):
 def load_df():
     '''Load DataFrame of all json files.'''
     tweets = {}
-    for jfile in glob.glob('raw/*.json'):
-        user, _ = os.path.splitext(jfile)
-        tweets.update(load_json(user))
+    for jsonf in glob.glob('raw/*.json'):
+        tweets.update(tweetratio.load_json(jsonf))
     return tweets_to_df(tweets)
 
 
@@ -54,3 +46,15 @@ def plot_trend(df, sample='W', start="2016", min_retweets=50,
           .plot(ax=ax))
     ax.set_ylabel('Replies per retweet')
     fig.savefig("fig.png", bbox_inches='tight')
+
+
+def filter_tweets(tweets, min_retweet_count=50, min_year='2016'):
+    '''Filter tweets for frontend.'''
+    filter_keys = {'user', 'text', 'created_at', 'retweet_count',
+                   'reply_count', 'id_str'}
+    filtered_tweets = [{k: v for k, v in tweet.items() if k in filter_keys}
+                       for tweet_id, tweet in tweets.items()
+                       if (tweet['retweet_count'] > min_retweet_count)
+                       and (tweet['created_at'].split()[-1] >= min_year)]
+    logging.info(f'Filtered {len(tweets)} to {len(filtered_tweets)} tweets')
+    return filtered_tweets
