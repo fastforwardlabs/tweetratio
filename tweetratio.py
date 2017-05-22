@@ -18,8 +18,11 @@ auth.set_access_token(
     os.environ['access_token_secret']
 )
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-logging.basicConfig(filename='log.log', level=logging.INFO,
+
+logging.basicConfig(filename='log.log',
                     format='%(levelname)s:%(asctime)s:%(message)s')
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger('tweepy').setLevel(logging.WARNING)
 
 
 def get_tweets(user, ntweets=3200):
