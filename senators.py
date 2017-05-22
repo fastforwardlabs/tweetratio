@@ -34,16 +34,14 @@ senators = [
 
 
 def missing():
-    unscraped = 0
     for i, senator in enumerate(senators, 1):
         try:
             tweets = tweetratio.load_json(f'raw/{senator}.json')
             missing = len(tweets) - tweetratio.count_reply_counts(tweets)
             if missing:
                 print(f'{senator}: {missing} reply_counts')
-        except:
-            unscraped += 1
-    print(f'{unscraped} unscraped')
+        except FileNotFoundError:
+            print(f'{senator}: unscraped')
 
 
 def process():
