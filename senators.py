@@ -26,7 +26,7 @@ senators = [
     "SenBobCasey", "SenToomey", "SenJackReed", "SenWhitehouse",
     "LindseyGrahamSC", "SenatorTimScott", "SenJohnThune", "SenatorRounds",
     "SenAlexander", "SenBobCorker", "JohnCornyn", "SenTedCruz",
-    "SenOrrinHatch", "SenMikeLee", "SenatorLeahy", "SenatorSanders",
+    "SenOrrinHatch", "SenMikeLee", "SenatorLeahy", "SenSanders",
     "timkaine", "MarkWarner", "PattyMurray", "SenatorCantwell", "SenCapito",
     "Sen_JoeManchin", "SenatorBaldwin", "SenRonJohnson", "SenJohnBarrasso",
     "SenatorEnzi"
