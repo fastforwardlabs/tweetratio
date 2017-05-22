@@ -29,7 +29,7 @@ senators = [
     "SenOrrinHatch", "SenMikeLee", "SenatorLeahy", "SenSanders",
     "timkaine", "MarkWarner", "PattyMurray", "SenatorCantwell", "SenCapito",
     "Sen_JoeManchin", "SenatorBaldwin", "SenRonJohnson", "SenJohnBarrasso",
-    "SenatorEnzi"
+    "SenatorEnzi", "BernieSanders"
 ]
 
 
