@@ -48,6 +48,15 @@ def plot_trend(df, sample='W', start="2016", min_retweets=50,
     fig.savefig("fig.png", bbox_inches='tight')
 
 
+def clobber_user(tweets):
+    for tweet_id, tweet in tweets.items():
+        try:
+            tweet['user'] = tweet['user']['screen_name']
+        except TypeError:
+            pass
+    return tweets
+
+
 def filter_tweets(tweets, min_retweet_count=50, min_year='2016'):
     '''Filter tweets for frontend.'''
     filter_keys = {'user', 'text', 'created_at', 'retweet_count',
@@ -58,3 +67,7 @@ def filter_tweets(tweets, min_retweet_count=50, min_year='2016'):
                        and (tweet['created_at'].split()[-1] >= min_year)]
     logging.info(f'Filtered {len(tweets)} to {len(filtered_tweets)} tweets')
     return filtered_tweets
+
+
+def write_csv(tweets, csvf):
+    pd.DataFrame(tweets).to_csv(csvf)

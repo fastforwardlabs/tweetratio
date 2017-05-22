@@ -1,3 +1,4 @@
+import analysis
 import tweetratio
 import logging
 
@@ -15,7 +16,7 @@ senators = [
     "SenateMajLdr", "RandPaul", "BillCassidy", "SenJohnKennedy",
     "SenatorCollins", "SenAngusKing", "SenatorCardin", "ChrisVanHollen",
     "SenWarren", "senmarkey", "SenStabenow", "SenGaryPeters", "amyklobuchar",
-    "alfranken", "SenThadCochran", "SenatorWicker", "clairemc", "RoyBlunt",
+    "alfranken", "SenThadCochran", "SenatorWicker", "clairecmc", "RoyBlunt",
     "SenatorTester", "SteveDaines", "SenatorFischer", "BenSasse",
     "SenDeanHeller", "CatherineForNV", "SenatorShaheen", "SenatorHassan",
     "SenatorMenendez", "CoryBooker", "SenatorTomUdall", "MartinHeinrich",
@@ -43,6 +44,15 @@ def missing():
         except:
             unscraped += 1
     print(f'{unscraped} unscraped')
+
+
+def process():
+    for senator in senators:
+        tweets = tweetratio.load_json(f'raw/{senator}.json')
+        tweets = analysis.clobber_user(tweets)
+        tweets = analysis.filter_tweets(tweets, min_year='1970',
+                                        min_retweet_count=0)
+        analysis.write_csv(tweets, f'csv/{senator}.csv')
 
 
 if __name__ == '__main__':
