@@ -20,7 +20,7 @@ senators = [
     "SenDeanHeller", "CatherineForNV", "SenatorShaheen", "SenatorHassan",
     "SenatorMenendez", "CoryBooker", "SenatorTomUdall", "MartinHeinrich",
     "SenSchumer", "SenGillibrand", "SenatorBurr", "ThomTillis",
-    "SenJohnHoeven", "SenatorHeitkamp", "SenSherrodBrown", "ropbportman",
+    "SenJohnHoeven", "SenatorHeitkamp", "SenSherrodBrown", "robportman",
     "JimInhofe", "SenatorLankford", "RonWyden", "SenJeffMerkley",
     "SenBobCasey", "SenToomey", "SenJackReed", "SenWhitehouse",
     "LindseyGrahamSC", "SenatorTimScott", "SenJohnThune", "SenatorRounds",
