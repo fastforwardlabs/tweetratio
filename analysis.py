@@ -71,3 +71,12 @@ def filter_tweets(tweets, min_retweet_count=50, min_year='2016'):
 
 def write_csv(tweets, csvf):
     pd.DataFrame(tweets).to_csv(csvf)
+
+
+def process(user, **kwargs):
+    '''Write minified json and csv for user.'''
+    tweets = tweetratio.load_json(f'raw/{user}.json')
+    tweets = clobber_user(tweets)
+    tweets = filter_tweets(tweets, **kwargs)
+    tweetratio.save_json(f'minified/{user}.json')
+    write_csv(tweets, f'csv/{user}.csv')

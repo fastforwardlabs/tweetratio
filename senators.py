@@ -34,6 +34,7 @@ senators = [
 
 
 def missing():
+    '''Check for senators that have not been fully downloaded.'''
     for i, senator in enumerate(senators, 1):
         try:
             tweets = tweetratio.load_json(f'raw/{senator}.json')
@@ -44,20 +45,12 @@ def missing():
             print(f'{senator}: unscraped')
 
 
-def process():
-    for senator in senators:
-        tweets = tweetratio.load_json(f'raw/{senator}.json')
-        tweets = analysis.clobber_user(tweets)
-        tweets = analysis.filter_tweets(tweets, min_year='1970',
-                                        min_retweet_count=0)
-        analysis.write_csv(tweets, f'csv/{senator}.csv')
-
-
 if __name__ == '__main__':
     for i, senator in enumerate(senators, 1):
         print(f'{i}/{len(senators)}: {senator}')
         try:
             tweets = tweetratio.get_user(senator, rescrape=False, save=True)
+            analysis.process(senator, min_year='1970', min_retweet_count=0)
         except TweepError as e:
             logging.exception(senator)
             pass
