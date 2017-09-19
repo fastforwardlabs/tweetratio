@@ -41,7 +41,7 @@ and the same data as a CSV file, do
 >>> analysis.process('realDonaldTrump')
 ```
 
-The minifed JSON is saved to `minified/realDonaldTrump.json`. The CSV is saved
+The minified JSON is saved to `minified/realDonaldTrump.json`. The CSV is saved
 to `csv/realDonaldTrump.csv`.
 
 ## Frontend
@@ -75,5 +75,5 @@ For example:
 
 ## U.S. Senators
 
-[`senators.py`](senators.py) demonstrates how to download the tweets for a list
-of accounts (in this case the U.S. senators as of June 2017).
+[`batch_download.py`](batch_download.py) demonstrates how to download the
+tweets for a list of users (e.g. the U.S. senators as of June 2017).
