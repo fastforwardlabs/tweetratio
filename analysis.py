@@ -73,10 +73,22 @@ def write_csv(tweets, csvf):
     pd.DataFrame(tweets).to_csv(csvf)
 
 
+def merge_jsons(infiles):
+    '''
+    Merge a list of json files, oldest first. If a key exists in several files,
+    value in newest file is preferred.
+    '''
+    merged_tweets = {}
+    tweetses = [tweetratio.load_json(infile) for infile in infiles]
+    for tweets in tweetses:
+        merged_tweets.update(tweets)
+    return merged_tweets
+
+
 def process(user, **kwargs):
     '''Write minified json and csv for user.'''
     tweets = tweetratio.load_json(f'raw/{user}.json')
     tweets = clobber_user(tweets)
     tweets = filter_tweets(tweets, **kwargs)
-    tweetratio.save_json(f'minified/{user}.json')
+    tweetratio.save_json(tweets, f'minified/{user}.json')
     write_csv(tweets, f'csv/{user}.csv')
