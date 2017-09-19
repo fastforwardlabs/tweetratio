@@ -55,7 +55,7 @@ locally, download and minify the data for `realDonaldTrump`, `BernieSanders`,
 
 Then
 ```bash
-$ mv processed/* web/data/
+$ mv minified/* web/data/
 $ cd web
 $ python3 -m http.server
 ```
