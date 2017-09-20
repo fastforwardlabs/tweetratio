@@ -27,8 +27,10 @@ def n_worst_tweets(df, n=5):
     return df.sort_values('replies_per_retweet', ascending=False).iloc[:n]
 
 
-def save_worst_tweets(df):
-    (df.groupby('user').apply(n_worst_tweets)
+def save_worst_tweets(df, min_retweets=50):
+    (df
+     .query(f'retweet_count > {min_retweets}')
+     .groupby('user').apply(n_worst_tweets)
      [['user', 'replies_per_retweet', 'created_at', 'reply_count',
        'retweet_count', 'id_str', 'text']]
      .to_csv('worst_tweets.csv'))
