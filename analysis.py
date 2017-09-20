@@ -12,7 +12,7 @@ def tweets_to_df(tweets):
     df['created_at'] = pd.to_datetime(df['created_at'])
     df['user'] = df['user'].apply(lambda user_dict: user_dict['screen_name'])
     df['replies_per_retweet'] = df['reply_count']/df['retweet_count']
-    return df
+    return df.set_index('created_at')
 
 
 def load_df():
