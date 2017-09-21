@@ -12,7 +12,7 @@ def tweets_to_df(tweets):
     df['created_at'] = pd.to_datetime(df['created_at'])
     df['user'] = df['user'].apply(lambda user_dict: user_dict['screen_name'])
     df['replies_per_retweet'] = df['reply_count']/df['retweet_count']
-    return df.set_index('created_at')
+    return df.set_index('created_at', drop=False)
 
 
 def load_df():
@@ -23,12 +23,13 @@ def load_df():
     return tweets_to_df(tweets)
 
 
-def n_worst_tweets(df, n=5):
+def n_worst_tweets(df, n=10):
     return df.sort_values('replies_per_retweet', ascending=False).iloc[:n]
 
 
-def save_worst_tweets(df, min_retweets=50):
+def save_worst_tweets(df, min_retweets=10, start="1970"):
     (df
+     .loc[start:]
      .query(f'retweet_count > {min_retweets}')
      .groupby('user').apply(n_worst_tweets)
      [['user', 'replies_per_retweet', 'created_at', 'reply_count',
