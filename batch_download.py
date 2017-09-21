@@ -32,10 +32,14 @@ from tweepy.error import TweepError
 #     "SenatorEnzi", "BernieSanders"
 # ]
 
-users = [
-    "JoyAnnReid", "CillizzaCNN", "ananavarro", "judgejeanine", "mattyglesias",
-    "MeghanMcCain", "davidfrum", "jonathanchait", "cher"
-]
+# users = [
+#     "JoyAnnReid", "CillizzaCNN", "ananavarro", "judgejeanine", "mattyglesias",
+#     "MeghanMcCain", "davidfrum", "jonathanchait", "cher"
+# ]
+
+users = ["SpeakerRyan", "jimmykimmel", "kamalaharris", "SenWarren",
+         "berniesanders", "BillCassidy", "realDonaldTrump", "lindseygrahamsc",
+         "SenateMajLdr"]
 
 
 def missing(users=users):
